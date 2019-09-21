@@ -13,17 +13,22 @@ namespace Rop.CacheDictionary
     public class CacheDictionary<R, I, T>
     {
         private readonly ConcurrentDictionary<I, R> _dic = new ConcurrentDictionary<I, R>();
-        public Func<T, I> GetIndex { get; }
         private Func<T, R> InternalFactory { get; set; }
         protected void SetInternalFactory(Func<T, R> newfactory) => InternalFactory = newfactory;
 
         protected R Get(T item, I i)
         {
-            if (_dic.TryGetValue(i, out var res)) return res;
-            res = InternalFactory(item);
-            _dic[i] = res;
+            var res = _dic.GetOrAdd(i, key => InternalFactory(item));
+            // **Concurrent equivalent
+            //if (_dic.TryGetValue(i, out var res)) return res;
+            //res = InternalFactory(item);
+            //_dic[i] = res;
+            // **
             return res;
         }
+
+        public Func<T, I> GetIndex { get; } // Function Must be Deterministic
+
         public R Get(T item)
         {
             var i = GetIndex(item);
@@ -40,6 +45,7 @@ namespace Rop.CacheDictionary
         public IEnumerable<KeyValuePair<I, R>> GetKeyValues() => _dic;
         public bool IsCached(I index) => _dic.ContainsKey(index);
         public bool UnCache(I index) => _dic.TryRemove(index, out var _);
+        public void ClearAll() => _dic.Clear();
     }
 
 

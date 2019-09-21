@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <Authors>Ramon Ordiales Plaza</Authors>
+    <Company>Ramon Ordiales Plaza</Company>
+    <Description>Concurrent Cache Dictionary that wraps a Concurrent Dictionary. Designed for easy Factorization.</Description>
+    <Copyright>2018,2019 Ramon Ordiales</Copyright>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+  </PropertyGroup>
+
+</Project>
